@@ -5,9 +5,11 @@ import { todoInputSchema } from "../todoTypes";
 
 export const todosRouter = router({
   getTodos: publicProcedure.query(() => {
-    return {
-      todos,
-    };
+    return todos;
+  }),
+  getTodo: publicProcedure.input(z.string()).query((req) => {
+    const todo = todos.find((t) => t.id === req.input);
+    return todo;
   }),
   addTodo: publicProcedure.input(todoInputSchema).mutation((req) => {
     const { input } = req;

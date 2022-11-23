@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Todo } from "../server/trpc/todoTypes";
 import { trpc } from "../utils/trpc";
+import TodoListItem from "./TodoListItem";
 
 export function TodoList({ todos }: { todos: Todo[] }) {
   const [title, setTitle] = useState("");
@@ -31,38 +32,6 @@ export function TodoList({ todos }: { todos: Todo[] }) {
           }
         }}
       />
-    </div>
-  );
-}
-interface TodoListItemProps {
-  todo: Todo;
-}
-
-function TodoListItem({ todo }: TodoListItemProps) {
-  const utils = trpc.useContext();
-  const updateTodo = trpc.todos.updateTodo.useMutation({
-    onSettled() {
-      // Sync with server once mutation has settled
-      utils.todos.getTodos.invalidate();
-    },
-  });
-
-  const handleChange = () => {
-    const { id, ...todoInput } = todo;
-    todoInput.complete = !todoInput.complete;
-    updateTodo.mutate({ id, todoInput });
-  };
-
-  return (
-    <div>
-      <label htmlFor=""></label>
-      <input
-        type="checkbox"
-        id={todo.id}
-        checked={todo.complete}
-        onChange={handleChange}
-      />
-      {todo.title}
     </div>
   );
 }

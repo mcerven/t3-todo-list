@@ -7,9 +7,7 @@ export default function Page() {
   return (
     <div>
       <h2>Todos</h2>
-      <div>
-        {todosResult.data && <TodoList todos={todosResult.data.todos} />}
-      </div>
+      <div>{todosResult.data && <TodoList todos={todosResult.data} />}</div>
     </div>
   );
 }
